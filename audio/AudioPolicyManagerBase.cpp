@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009 The Android Open Source Project
+ * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -420,7 +421,12 @@ void AudioPolicyManagerBase::setForceUse(AudioSystem::force_use usage, AudioSyst
             config != AudioSystem::FORCE_WIRED_ACCESSORY &&
             config != AudioSystem::FORCE_ANALOG_DOCK &&
             config != AudioSystem::FORCE_DIGITAL_DOCK && config != AudioSystem::FORCE_NONE &&
-			// RUBIS ockwon
+		    /**
+		     * Date: Feb 25, 2016
+		     * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
+		     *
+		     * Comments
+		     */
             config != AudioSystem::FORCE_HDMI_SYSTEM_AUDIO_ENFORCED && 
 			config != AudioSystem::FORCE_WIFI_SYSTEM_AUDIO_ENFORCED &&
 			// END
@@ -2685,7 +2691,12 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
 
     case STRATEGY_MEDIA: {
         uint32_t device2 = AUDIO_DEVICE_NONE;
-		// RUBIS ockwon
+    	/**
+	     * Date: Feb 25, 2016
+	     * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
+	     *
+    	 * Comments
+	     */
 		/*
         if (strategy != STRATEGY_SONIFICATION) {
             // no sonification on remote submix (e.g. WFD)
@@ -2729,7 +2740,12 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET;
         }
 		
-		// RUBIS ockwon
+	    /**
+	     * Date: Feb 25, 2016
+    	 * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
+	     *
+	     * Comments
+	     */
         /*if ((device2 == AUDIO_DEVICE_NONE) && (strategy != STRATEGY_SONIFICATION)) {
             // no sonification on aux digital (e.g. HDMI)
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_AUX_DIGITAL;
