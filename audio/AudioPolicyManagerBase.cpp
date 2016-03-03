@@ -420,6 +420,10 @@ void AudioPolicyManagerBase::setForceUse(AudioSystem::force_use usage, AudioSyst
             config != AudioSystem::FORCE_WIRED_ACCESSORY &&
             config != AudioSystem::FORCE_ANALOG_DOCK &&
             config != AudioSystem::FORCE_DIGITAL_DOCK && config != AudioSystem::FORCE_NONE &&
+			// RUBIS ockwon
+            config != AudioSystem::FORCE_HDMI_SYSTEM_AUDIO_ENFORCED && 
+			config != AudioSystem::FORCE_WIFI_SYSTEM_AUDIO_ENFORCED &&
+			// END
             config != AudioSystem::FORCE_NO_BT_A2DP) {
             ALOGW("setForceUse() invalid config %d for FOR_MEDIA", config);
             return;
@@ -2681,10 +2685,23 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
 
     case STRATEGY_MEDIA: {
         uint32_t device2 = AUDIO_DEVICE_NONE;
+		// RUBIS ockwon
+		/*
         if (strategy != STRATEGY_SONIFICATION) {
             // no sonification on remote submix (e.g. WFD)
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_REMOTE_SUBMIX;
+        }*/
+        if (device2 == AUDIO_DEVICE_NONE &&
+                mForceUse[AudioSystem::FOR_MEDIA] == AudioSystem::FORCE_HDMI_SYSTEM_AUDIO_ENFORCED)
+        {
+            device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_AUX_DIGITAL;
         }
+        if (device2 == AUDIO_DEVICE_NONE &&
+                mForceUse[AudioSystem::FOR_MEDIA] == AudioSystem::FORCE_WIFI_SYSTEM_AUDIO_ENFORCED)
+        {
+            device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_REMOTE_SUBMIX;
+        }
+		// END
         if ((device2 == AUDIO_DEVICE_NONE) &&
                 mHasA2dp && (mForceUse[AudioSystem::FOR_MEDIA] != AudioSystem::FORCE_NO_BT_A2DP) &&
                 (getA2dpOutput() != 0) && !mA2dpSuspended) {
@@ -2711,10 +2728,14 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
         if (device2 == AUDIO_DEVICE_NONE) {
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET;
         }
-        if ((device2 == AUDIO_DEVICE_NONE) && (strategy != STRATEGY_SONIFICATION)) {
+		
+		// RUBIS ockwon
+        /*if ((device2 == AUDIO_DEVICE_NONE) && (strategy != STRATEGY_SONIFICATION)) {
             // no sonification on aux digital (e.g. HDMI)
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_AUX_DIGITAL;
-        }
+        }*/
+		// END
+
         if ((device2 == AUDIO_DEVICE_NONE) &&
                 (mForceUse[AudioSystem::FOR_DOCK] == AudioSystem::FORCE_ANALOG_DOCK)) {
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET;
