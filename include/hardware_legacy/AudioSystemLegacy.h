@@ -289,7 +289,12 @@ public:
         FORCE_DIGITAL_DOCK,
         FORCE_NO_BT_A2DP,
         FORCE_SYSTEM_ENFORCED,
-		// RUBIS ockwon
+		/**
+		 * Date: Feb 25, 2016
+		 * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
+		 * 
+		 * Comments
+		 */
 		FORCE_HDMI_SYSTEM_AUDIO_ENFORCED,
 		FORCE_WIFI_SYSTEM_AUDIO_ENFORCED,
 		// END
