@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -293,7 +294,7 @@ public:
 		 * Date: Feb 25, 2016
 		 * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
 		 * 
-		 * Comments
+		 * Add device categories for forced use.
 		 */
 		FORCE_HDMI_SYSTEM_AUDIO_ENFORCED,
 		FORCE_WIFI_SYSTEM_AUDIO_ENFORCED,

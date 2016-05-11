@@ -425,7 +425,7 @@ void AudioPolicyManagerBase::setForceUse(AudioSystem::force_use usage, AudioSyst
 		     * Date: Feb 25, 2016
 		     * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
 		     *
-		     * Comments
+		     * Add conditions of new configurations.
 		     */
             config != AudioSystem::FORCE_HDMI_SYSTEM_AUDIO_ENFORCED && 
 			config != AudioSystem::FORCE_WIFI_SYSTEM_AUDIO_ENFORCED &&
@@ -2695,7 +2695,7 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
 	     * Date: Feb 25, 2016
 	     * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
 	     *
-    	 * Comments
+    	 * Tune the priorities of HDMI, miracast, and BT.
 	     */
 		/*
         if (strategy != STRATEGY_SONIFICATION) {
@@ -2713,9 +2713,13 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_REMOTE_SUBMIX;
         }
 		// END
-        if ((device2 == AUDIO_DEVICE_NONE) &&
-                mHasA2dp && (mForceUse[AudioSystem::FOR_MEDIA] != AudioSystem::FORCE_NO_BT_A2DP) &&
-                (getA2dpOutput() != 0) && !mA2dpSuspended) {
+
+		// RUBIS ockwon
+        // if ((device2 == AUDIO_DEVICE_NONE) &&
+        //        mHasA2dp && (mForceUse[AudioSystem::FOR_MEDIA] != AudioSystem::FORCE_NO_BT_A2DP) &&
+        //        (getA2dpOutput() != 0) && !mA2dpSuspended) {
+		if (mHasA2dp && (getA2dpOutput() != 0) && !mA2dpSuspended) {
+		// END
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_BLUETOOTH_A2DP;
             if (device2 == AUDIO_DEVICE_NONE) {
                 device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES;
@@ -2739,19 +2743,17 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
         if (device2 == AUDIO_DEVICE_NONE) {
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET;
         }
-		
 	    /**
 	     * Date: Feb 25, 2016
     	 * Copyright (C) 2016 RUBIS Laboratory at Seoul National University
 	     *
-	     * Comments
+	     * Skip the HDMI.
 	     */
         /*if ((device2 == AUDIO_DEVICE_NONE) && (strategy != STRATEGY_SONIFICATION)) {
             // no sonification on aux digital (e.g. HDMI)
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_AUX_DIGITAL;
         }*/
 		// END
-
         if ((device2 == AUDIO_DEVICE_NONE) &&
                 (mForceUse[AudioSystem::FOR_DOCK] == AudioSystem::FORCE_ANALOG_DOCK)) {
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET;

@@ -1,0 +1,179 @@
+cscope 15 $HOMEandroid/5.1.1/hardware/libhardware_legacy               0000000992
+	@qemu.h
+
+16 #iâdeà
+_libs_h¬dw¬e_qemu_h
+
+
+17 
+	#_libs_h¬dw¬e_qemu_h
+
+
+	)
+
+19 #ifdeà
+__ýlu¥lus
+
+
+23 #ifdeà
+QEMU_HARDWARE
+
+
+26 
+qemu_check
+();
+
+35 
+	mis_š™ed
+;
+
+36 
+	mis_avažabË
+;
+
+37 
+	mis_qemud
+;
+
+38 
+	mis_qemud_Þd
+;
+
+39 
+	mis_‰y
+;
+
+40 
+	mfd
+;
+
+41 
+	mdeviû
+[32];
+
+42 } 
+	tQemuChªÃl
+;
+
+53 
+qemu_chªÃl_Ý’
+Ð
+QemuChªÃl
+* 
+chªÃl
+,
+
+54 cÚ¡ * 
+Çme
+,
+
+55 
+mode
+ );
+
+65 
+qemu_commªd_fÜm©
+Ð* 
+bufãr
+,
+
+66 
+bufãr_size
+,
+
+67 cÚ¡ * 
+fÜm©
+,
+
+75 
+qemu_cÚŒÞ_commªd
+ÐcÚ¡ * 
+fmt
+, ... );
+
+83 
+qemu_cÚŒÞ_qu”y
+ÐcÚ¡ * 
+que¡iÚ
+, 
+que¡iÚËn
+,
+
+84 * 
+ªsw”
+, 
+ªsw”size
+ );
+
+90 #ifdeà
+QEMU_HARDWARE
+
+
+91 
+	#QEMU_FALLBACK
+(
+x
+) \
+
+93 ià(
+	`qemu_check
+()) \
+
+94  
+qemu_
+ ## 
+x
+ ; \
+
+95 } 0)
+
+	)
+
+96 
+	#QEMU_FALLBACK_VOID
+(
+x
+) \
+
+98 ià(
+	`qemu_check
+()) { \
+
+99 
+qemu_
+ ## 
+x
+ ; \
+
+102 } 0)
+
+	)
+
+104 
+	#QEMU_FALLBACK
+(
+x
+è(()0)
+
+	)
+
+105 
+	#QEMU_FALLBACK_VOID
+(
+x
+è(()0)
+
+	)
+
+108 #ifdeà
+__ýlu¥lus
+
+
+	@
+1
+.
+1
+/usr/include
+1
+7
+qemu.h
