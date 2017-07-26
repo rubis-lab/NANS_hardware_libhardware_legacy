@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008 The Android Open Source Project
  * Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2017 RUBIS Laboratory at Seoul National University
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -337,6 +338,15 @@ public:
         FORCE_DIGITAL_DOCK,
         FORCE_NO_BT_A2DP,
         FORCE_SYSTEM_ENFORCED,
+        /*
+         * Date: Jul 4, 2017
+         * Copyright (C) 2017 RUBIS Laboratory at Seoul National University
+         *
+         * Add device categories for forced use.
+         */
+        FORCE_HDMI_SYSTEM_AUDIO_ENFORCED,
+        FORCE_WIFI_SYSTEM_AUDIO_ENFORCED,
+        // END
         NUM_FORCE_CONFIG,
         FORCE_DEFAULT = FORCE_NONE
     };
