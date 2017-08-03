@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009 The Android Open Source Project
+ * Copyright (C) 2017 RUBIS Laboratory at Seoul National University
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -420,6 +421,15 @@ void AudioPolicyManagerBase::setForceUse(AudioSystem::force_use usage, AudioSyst
         if (config != AudioSystem::FORCE_HEADPHONES && config != AudioSystem::FORCE_BT_A2DP &&
             config != AudioSystem::FORCE_WIRED_ACCESSORY &&
             config != AudioSystem::FORCE_ANALOG_DOCK &&
+            /*
+             * Date: Jul 4, 2017
+             * Copyright (C) 2017 RUBIS Laboratory at Seoul National University
+             *
+             * Add conditions of new configurations.
+             */
+            config != AudioSystem::FORCE_HDMI_SYSTEM_AUDIO_ENFORCED &&
+                        config != AudioSystem::FORCE_WIFI_SYSTEM_AUDIO_ENFORCED &&
+            // END
             config != AudioSystem::FORCE_DIGITAL_DOCK && config != AudioSystem::FORCE_NONE &&
             config != AudioSystem::FORCE_NO_BT_A2DP) {
             ALOGW("setForceUse() invalid config %d for FOR_MEDIA", config);
@@ -2682,13 +2692,41 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
 
     case STRATEGY_MEDIA: {
         uint32_t device2 = AUDIO_DEVICE_NONE;
+        /*
+         * Date: Jul 4, 2017
+         * Copyright (C) 2017 RUBIS Laboratory at Seoul National University
+         *
+         * Tune the priorities of HDMI, miracast, and BT.
+         */
+        /*
         if (strategy != STRATEGY_SONIFICATION) {
             // no sonification on remote submix (e.g. WFD)
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_REMOTE_SUBMIX;
         }
-        if ((device2 == AUDIO_DEVICE_NONE) &&
-                mHasA2dp && (mForceUse[AudioSystem::FOR_MEDIA] != AudioSystem::FORCE_NO_BT_A2DP) &&
-                (getA2dpOutput() != 0) && !mA2dpSuspended) {
+        */
+        if (device2 == AUDIO_DEVICE_NONE &&
+                mForceUse[AudioSystem::FOR_MEDIA] == AudioSystem::FORCE_HDMI_SYSTEM_AUDIO_ENFORCED)
+        {
+            device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_AUX_DIGITAL;
+        }
+        if (device2 == AUDIO_DEVICE_NONE &&
+                mForceUse[AudioSystem::FOR_MEDIA] == AudioSystem::FORCE_WIFI_SYSTEM_AUDIO_ENFORCED)
+        {
+            device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_REMOTE_SUBMIX;
+        }
+        // END
+
+        /*
+         * Date: Jul 4, 2017
+         * Copyright (C) 2017 RUBIS Laboratory at Seoul National University
+         *
+         * Change the forced usage of BT.
+         */
+        // if ((device2 == AUDIO_DEVICE_NONE) &&
+        //        mHasA2dp && (mForceUse[AudioSystem::FOR_MEDIA] != AudioSystem::FORCE_NO_BT_A2DP) &&
+        //        (getA2dpOutput() != 0) && !mA2dpSuspended) {
+        if (mHasA2dp && (getA2dpOutput() != 0) && !mA2dpSuspended) {
+        // END
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_BLUETOOTH_A2DP;
             if (device2 == AUDIO_DEVICE_NONE) {
                 device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_BLUETOOTH_A2DP_HEADPHONES;
@@ -2712,10 +2750,20 @@ audio_devices_t AudioPolicyManagerBase::getDeviceForStrategy(routing_strategy st
         if (device2 == AUDIO_DEVICE_NONE) {
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_DGTL_DOCK_HEADSET;
         }
+        /*
+         * Date: Jul 4, 2017
+         * Copyright (C) 2017 RUBIS Laboratory at Seoul National University
+         *
+         * Skip the HDMI.
+         */
+        /*
         if ((device2 == AUDIO_DEVICE_NONE) && (strategy != STRATEGY_SONIFICATION)) {
             // no sonification on aux digital (e.g. HDMI)
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_AUX_DIGITAL;
         }
+        */
+        // END
+
         if ((device2 == AUDIO_DEVICE_NONE) &&
                 (mForceUse[AudioSystem::FOR_DOCK] == AudioSystem::FORCE_ANALOG_DOCK)) {
             device2 = mAvailableOutputDevices & AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET;
