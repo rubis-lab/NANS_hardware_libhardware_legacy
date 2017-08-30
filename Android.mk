@@ -1,4 +1,4 @@
-# Copyright 2006 The Android Open Source Project
+# Copyright 2006 The Android Open Source Project!
 
 # Setting LOCAL_PATH will mess up all-subdir-makefiles, so do it beforehand.
 legacy_modules := power uevent wifi qemu qemu_tracing
